@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+  <channel>
+    <atom:link href="{{baseUrl}}/rss" rel="self" type="application/rss+xml" />
+    <title>{{blogTitle}}</title>
+    <link>{{baseUrl}}</link>
+    <description>
+      {{blogDescription}}
+    </description>
+    {{#blogCategories}}
+      <category>{{.}}</category>
+    {{/blogCategories}}
+    <copyright>{{blogCopyright}}</copyright>
+    <language>en-us</language>
+    {{#posts}}
+      <item>
+        <title>{{title}}</title>
+        <link>{{baseUrl}}/{{id}}/{{safeTitle}}</link>
+        <description>
+          <![CDATA[{{{preview}}}]]>
+        </description>
+        <author>{{author}}</author>
+        <pubDate>{{date}}</pubDate>
+        <guid isPermaLink="false">{{id}}</guid>
+        <comments>
+          {{baseUrl}}/{{id}}/{{safeTitle}}#disqus_thread
+        </comments>
+        {{#tags}}
+          <category>{{.}}</category>
+        {{/tags}}
+      </item>
+    {{/posts}}
+  </channel>
+
+</rss>
+

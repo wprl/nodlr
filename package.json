@@ -1,0 +1,29 @@
+{
+  "name": "nodlr",
+  "version": "0.0.0",
+  "description": "Express middleware for embedding your Tumblr blog in an Express app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wprl/nodlr.git"
+  },
+  "keywords": [
+    "express",
+    "connect",
+    "tumblr",
+    "blog",
+    "embed"
+  ],
+  "author": "William P. Riley-Land",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "f134608d890cf9823d900e4fef0a491d5d8ff090",
+  "dependencies": {
+    "request": "~2.12.0",
+    "consolidate": "~0.7.0",
+    "mustache": "~0.7.2"
+  }
+}

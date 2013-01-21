@@ -1,0 +1,161 @@
+<div>
+  <section class="blog">
+
+    {{#posts}}
+      <article>
+        <h3><a href="{{baseUrl}}/{{id}}/{{safeTitle}}">{{title}}</a></h3>
+
+        <div class="author">
+          <a href="{{baseUrl}}" rel="author">{{author}}</a>
+        </div>
+
+        <time>{{date}}</time>
+
+        {{#singleArticle}}
+          <div>{{{body}}}</div>
+        {{/singleArticle}}
+
+        {{^singleArticle}}
+          <div>
+            {{{preview}}}
+            <strong>
+              <a href="{{baseUrl}}/{{id}}/{{safeTitle}}">
+                read more&hellip;
+              </a>
+            </strong>
+          </div>
+        {{/singleArticle}}
+
+        <div class="tags-wrapper">
+          <em>tags</em>
+          <ul class="tags">
+            {{#tags}}
+              <li class="label label-inverse">#{{.}}</li>
+            {{/tags}}
+          </ul>
+        </div>
+
+        {{^singleArticle}}
+          <div class="count-wrapper">
+            <a href="{{baseUrl}}/{{id}}/{{safeTitle}}#disqus_thread">comments</a>
+          </div>
+        {{/singleArticle}}
+
+        {{#singleArticle}}
+          <div class="share-wrapper">
+            <!-- Begin Twitter share button -->
+            <a href="https://twitter.com/share" class="twitter-share-button"
+               data-via="{{twitterUsername}}"
+               data-related="{{twitterUsername}}"
+               data-url="{{baseUrl}}/{{id}}/{{safeTitle}}">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <!-- End Twitter share button -->
+
+            <!-- begin LinkedIn share button -->
+            <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+            <script type="IN/Share" data-counter="right" data-url="{{baseUrl}}/{{id}}"></script>
+            <!-- End LinkedIn share button -->
+
+            <!-- Begin Google+ share button -->
+            <!-- Place this tag where you want the share button to render. -->
+            <div class="g-plus" data-action="share" data-annotation="bubble"
+                 data-href="{{baseUrl}}/{{id}}/{{safeTitle}}"></div>
+
+            <!-- Place this tag after the last share tag. -->
+            <script type="text/javascript">
+              (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+              })();
+            </script>
+            <!-- End Google+ share button -->
+
+            <!-- Begin Facebook share button -->
+            <div class="fb-like" data-send="false" data-layout="button_count"
+                 data-width="450" data-show-faces="false"
+                 data-font="lucida grande">
+            </div>
+            <!-- End Facebook share button -->
+          </div>
+        {{/singleArticle}}
+      </article>
+    {{/posts}}
+
+    <a href="{{baseUrl}}/rss">Subscribe via RSS</a>
+
+    {{#singleArticle}}
+      <div class="comments">
+        <div id="disqus_thread">&nbsp;</div>
+        <!-- start Disqus comments -->
+        <script type="text/javascript">
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://{{disqusShortname}}.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        <!-- end Disqus comments -->
+      </div>
+    {{/singleArticle}}
+
+    {{^singleArticle}}
+      <div class="paging">
+        {{^firstPage}}
+          <a class="page-decrement pull-left">⇚ <span>Newer</span></a>
+        {{/firstPage}}
+        {{^lastPage}}
+          <a class="page-increment pull-right"><span>Older</span> ⇛</a>
+        {{/lastPage}}
+      </div>
+    {{/singleArticle}}
+
+  </section>
+</div>
+
+<script type="text/javascript">
+
+(function () {
+  var urlParts        = document.location.pathname.split('/');
+  var lastPart        = urlParts[ urlParts.length - 1 ];
+  var page;
+  var paged           = lastPart[0] === 'p';
+  var articleId;
+  var isSingleArticle = !paged && (lastPart !== 'blog');
+
+  if (paged) page = parseInt(lastPart.substring(1));
+  else       page = 0;
+
+  if (isSingleArticle) articleId = lastPart;
+
+  var setDisqusCount = function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = 'http://{{disqusShortname}}.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  };
+
+  //$(document).ready( function () {
+    if (!isSingleArticle) setDisqusCount();
+
+    //$('.page-decrement').click( function (event) {
+      //page -= 1;
+      //if (page < 0) page = 0;
+      //document.location = '/blog/p' + page;
+      //return false;
+    //});
+
+    //$('.page-increment').click( function (event) {
+      //page += 1;
+      //document.location = '/blog/p' + page;
+      //return false;
+    //});
+
+  //});
+
+})();
+
+</script>
