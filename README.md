@@ -12,7 +12,7 @@ Example:
       disqusShortname: 'kunio',
       pageLimit: 10,
       maxRssCount: 10,
-      api_key: 'todo-your-api-key-goes-here'
+      api_key: 'todo-your-tumblr-api-key-goes-here'
     }));
  
 MIT License (non-commercial use only)
@@ -24,4 +24,4 @@ Contact Info
  * http://kun.io/
  * @wprl
 
-&copy; 2012 William P. Riley-Land
+&copy; 2013 William P. Riley-Land
