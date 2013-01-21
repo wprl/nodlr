@@ -4,6 +4,8 @@ Nodlr v0.0.0
 Nodlr is Express middleware for embedding your Tumblr blog into an Express app.
 
 Example:
+ 
+    app = express();
 
     app.use('/blog', nodlr({
       blogName: 'wprl.tumblr.com',
