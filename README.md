@@ -7,7 +7,7 @@ Example:
 
     var nodlr = require('nodlr');
  
-    app = express();
+    var app = express();
 
     app.use('/blog', nodlr({
       blogName: 'wprl.tumblr.com',
@@ -18,8 +18,6 @@ Example:
       maxRssCount: 10,
       api_key: 'todo-your-tumblr-api-key-goes-here'
     }));
- 
-MIT License (non-commercial use only)
 
 *** WORK IN PROGRESS ***
 
