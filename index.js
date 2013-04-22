@@ -7,7 +7,7 @@ var tag = /[<][^>]+[>]/g;
 
 // This function cleans up blog article titles for use in URLs
 function safeTitle () {
-  return this.title.replace(/[ ]/g, '+');
+  return this.title.replace(/[ ]/g, '+').replace(/[?]/g, '');
 }
 
 // This function truncates body HTML and removes tags
