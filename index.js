@@ -1,21 +1,27 @@
+// Dependencies
+// ------------
 var express = require('express');
 var request = require('request');
 var consolidate = require('consolidate');
 
-// Private variables
-var tag = /[<][^>]+[>]/g;
+// Private Members
+// ---------------
 
-// This function cleans up blog article titles for use in URLs
+// A regex that matches <tags>
+var tagMatcher = /[<][^>]*[>]/g;
+
+// This function cleans up blog article titles for use in human-readable URLs
 function safeTitle () {
   return this.title.replace(/[ ]/g, '+').replace(/[?]/g, '');
 }
 
 // This function truncates body HTML and removes tags
 function preview () {
-  var output = this.body.replace(tag, '');
-  return output.substring(0, 256) + '&#8230;';
+  var output = this.body.replace(tagMatcher, '');
+  return output.substring(0, 256) + '&#8230;'; // elipsis
 }
 
+// This function pulls data from Tumblr
 function pullTumblr (options, querystring, callback) {
   querystring.api_key = options.api_key;
 
@@ -24,7 +30,7 @@ function pullTumblr (options, querystring, callback) {
       uri: 'http://api.tumblr.com/v2/blog/' + options.blogName + '/posts/text',
       qs: querystring
     },
-    function pullTumblrInner (error, response, body) {
+    function (error, response, body) {
       if (error) return callback(error);
 
       var renderOptions = {
@@ -40,8 +46,9 @@ function pullTumblr (options, querystring, callback) {
   );
 }
 
+// A function that returns Express middleware for handling the article list pages
 function handleBlog (options) {
-  return function handleBlogInner (request, response, next) {
+  var f = function (request, response, next) {
     var pageNumber = parseInt(request.params.pageNumber) || 0;
     var offset     = pageNumber * options.pageLimit;
 
@@ -59,11 +66,14 @@ function handleBlog (options) {
 
       response.render('blog.html', renderOptions);
     });
-  }
+  };
+
+  return f;
 }
 
+// A function that returns middleware for serving individual blog articles
 function handleBlogArticle (options) {
-  return function handleBlogArticleInner (request, response, next) {
+  var f = function (request, response, next) {
     var querystring = {
       limit: 1,
       singleArticle: true,
@@ -78,11 +88,14 @@ function handleBlogArticle (options) {
 
       response.render('blog.html', renderOptions);
     });
-  }
+  };
+
+  return f;
 };
 
-function handleBlogRss(options) {
-  return function handleBlogRssInner(request, response, next) {
+// A function the returns middleware that generates an RSS feed
+function handleBlogRss (options) {
+  var f = function (request, response, next) {
     var querystring = { limit: options.maxRssCount };
 
     pullTumblr(options, querystring, function (error, body, renderOptions) {
@@ -94,10 +107,16 @@ function handleBlogRss(options) {
       response.setHeader('Content-Type', 'application/rss+xml');
       response.render('blog.rss', renderOptions);
     });
-  }
+  };
+
+  return f;
 };
 
+// Module Definition
+// -----------------
 var nodlr = module.exports = function (options) {
+  if (!options.api_key) throw new Error('Please supply a Tumblr API key');
+
   var app = express();
 
   app.engine('html', consolidate.mustache);
